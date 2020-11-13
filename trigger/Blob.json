@@ -1,0 +1,28 @@
+{
+	"name": "Blob",
+	"properties": {
+		"description": "Updates on blob",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Copy_from_Excel",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"File_name": "@triggerBody().fileName"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/bolreporting/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/2198022a-bed5-4b5e-a6c0-525802fcb8e6/resourceGroups/Resource_group_test_1/providers/Microsoft.Storage/storageAccounts/storageaccountsforprod",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

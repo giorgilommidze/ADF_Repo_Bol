@@ -1,0 +1,74 @@
+{
+	"name": "Copy_from_Excel",
+	"properties": {
+		"activities": [
+			{
+				"name": "dataflow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Transform_Excel",
+						"type": "DataFlowReference",
+						"parameters": {
+							"File_name": {
+								"value": "'@{pipeline().parameters.File_name}'",
+								"type": "Expression"
+							},
+							"Date": {
+								"value": "'@{variables('Date')}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Date",
+					"value": {
+						"value": "@concat('01.',substring(pipeline().parameters.File_name,6,2),'.',substring(pipeline().parameters.File_name,1,4))",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"File_name": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"Date": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-11-13T08:28:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

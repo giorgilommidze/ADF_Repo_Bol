@@ -1,0 +1,38 @@
+{
+	"name": "Transform_Excel",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Bol_report_Excel_input",
+						"type": "DatasetReference"
+					},
+					"name": "ExcelInput"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Bol_reporting_DB_output",
+						"type": "DatasetReference"
+					},
+					"name": "DBoutput"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddReportingDate"
+				},
+				{
+					"name": "FormatInputStrings"
+				},
+				{
+					"name": "FilterEmptyRows"
+				}
+			],
+			"script": "parameters{\n\tFile_name as string,\n\tDate as string\n}\nsource(output(\n\t\tBrand as string,\n\t\t{order id} as string,\n\t\tEAN as string,\n\t\t{fulfilment by} as string,\n\t\tdescription as string,\n\t\t{# sales} as string,\n\t\t{# returns} as string,\n\t\t{# adjustments} as string,\n\t\t{Rev (incl vat)} as string,\n\t\t{Rev (Orders ex vat)} as string,\n\t\t{Rev (Refunds ex vat)} as string,\n\t\t{Rev (Adjustment ex vat)} as string,\n\t\t{Seller Fee ex vat} as string,\n\t\t{Fulfillment cost ex vat} as string,\n\t\t{Other ex vat} as string,\n\t\t{Subtotal ex vat} as string,\n\t\t{Warehouse cost (excl. VAT)} as string,\n\t\t{delivery country} as string,\n\t\t{isBusiness order} as string,\n\t\t{fs fulfilment} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\trowUrlColumn: 'Reporting_date',\n\twildcardPaths:[($File_name)]) ~> ExcelInput\nFilterEmptyRows derive(Reporting_date = $Date) ~> AddReportingDate\nAddReportingDate derive({# sales} = toInteger({# sales}),\n\t\t{# returns} = toInteger({# returns}),\n\t\t{# adjustments} = toInteger({# adjustments}),\n\t\t{Rev (incl vat)} = toDecimal({Rev (incl vat)}),\n\t\t{Rev (Orders ex vat)} = toDecimal({Rev (Orders ex vat)}),\n\t\t{Rev (Refunds ex vat)} = toDecimal({Rev (Refunds ex vat)}),\n\t\t{Rev (Adjustment ex vat)} = toDecimal({Rev (Adjustment ex vat)}),\n\t\t{Seller Fee ex vat} = toDecimal({Seller Fee ex vat}),\n\t\t{Fulfillment cost ex vat} = toDecimal({Fulfillment cost ex vat}),\n\t\t{Other ex vat} = toDecimal({Other ex vat}),\n\t\t{Subtotal ex vat} = toDecimal({Subtotal ex vat}),\n\t\t{Warehouse cost (excl. VAT)} = toDecimal({Warehouse cost (excl. VAT)}),\n\t\t{isBusiness order} = toBoolean({isBusiness order})) ~> FormatInputStrings\nExcelInput filter(!isNull(Brand) || !isNull({order id}) || !isNull(EAN)) ~> FilterEmptyRows\nFormatInputStrings sink(input(\n\t\tBrand as string,\n\t\tOrder_id as string,\n\t\tEAN as string,\n\t\tFulfilment_by as string,\n\t\tProduct_description as string,\n\t\tCount_of_sales as integer,\n\t\tCount_of_returns as integer,\n\t\tCount_of_adjustments as integer,\n\t\tRev_incl_vat as decimal(10,2),\n\t\tRev_Orders_ex_vat as decimal(10,2),\n\t\tRev_Refunds_ex_vat as decimal(10,2),\n\t\tRev_Adjustment_ex_vat as decimal(10,2),\n\t\tSeller_Fee_ex_vat as decimal(10,2),\n\t\tFulfillment_cost_ex_vat as decimal(10,2),\n\t\tOther_ex_vat as decimal(10,2),\n\t\tSubtotal_ex_vat as decimal(10,2),\n\t\tWarehouse_cost_excl_vat as decimal(10,2),\n\t\tCountry_delivered as string,\n\t\tIsbusiness_order as boolean,\n\t\tReporting_date as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tpreSQLs:[(concat(\"delete from bol_reporting where Reporting_date='\",$Date,\"'\"))],\n\tmapColumn(\n\t\tBrand,\n\t\tOrder_id = {order id},\n\t\tEAN,\n\t\tFulfilment_by = {fulfilment by},\n\t\tProduct_description = description,\n\t\tCount_of_sales = {# sales},\n\t\tCount_of_returns = {# returns},\n\t\tCount_of_adjustments = {# adjustments},\n\t\tRev_incl_vat = {Rev (incl vat)},\n\t\tRev_Orders_ex_vat = {Rev (Orders ex vat)},\n\t\tRev_Refunds_ex_vat = {Rev (Refunds ex vat)},\n\t\tRev_Adjustment_ex_vat = {Rev (Adjustment ex vat)},\n\t\tSeller_Fee_ex_vat = {Seller Fee ex vat},\n\t\tFulfillment_cost_ex_vat = {Fulfillment cost ex vat},\n\t\tOther_ex_vat = {Other ex vat},\n\t\tSubtotal_ex_vat = {Subtotal ex vat},\n\t\tWarehouse_cost_excl_vat = {Warehouse cost (excl. VAT)},\n\t\tCountry_delivered = {delivery country},\n\t\tIsbusiness_order = {isBusiness order},\n\t\tReporting_date\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> DBoutput"
+		}
+	}
+}

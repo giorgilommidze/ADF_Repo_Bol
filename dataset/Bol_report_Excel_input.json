@@ -1,0 +1,102 @@
+{
+	"name": "Bol_report_Excel_input",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Excel_BOL_Reporting",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "SALES",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "bolreporting"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "Brand",
+				"type": "String"
+			},
+			{
+				"name": "order id",
+				"type": "String"
+			},
+			{
+				"name": "EAN",
+				"type": "String"
+			},
+			{
+				"name": "fulfilment by",
+				"type": "String"
+			},
+			{
+				"name": "description",
+				"type": "String"
+			},
+			{
+				"name": "# sales",
+				"type": "String"
+			},
+			{
+				"name": "# returns",
+				"type": "String"
+			},
+			{
+				"name": "# adjustments",
+				"type": "String"
+			},
+			{
+				"name": "Rev (incl vat)",
+				"type": "String"
+			},
+			{
+				"name": "Rev (Orders ex vat)",
+				"type": "String"
+			},
+			{
+				"name": "Rev (Refunds ex vat)",
+				"type": "String"
+			},
+			{
+				"name": "Rev (Adjustment ex vat)",
+				"type": "String"
+			},
+			{
+				"name": "Seller Fee ex vat",
+				"type": "String"
+			},
+			{
+				"name": "Fulfillment cost ex vat",
+				"type": "String"
+			},
+			{
+				"name": "Other ex vat",
+				"type": "String"
+			},
+			{
+				"name": "Subtotal ex vat",
+				"type": "String"
+			},
+			{
+				"name": "Warehouse cost (excl. VAT)",
+				"type": "String"
+			},
+			{
+				"name": "delivery country",
+				"type": "String"
+			},
+			{
+				"name": "isBusiness order",
+				"type": "String"
+			},
+			{
+				"name": "fs fulfilment",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

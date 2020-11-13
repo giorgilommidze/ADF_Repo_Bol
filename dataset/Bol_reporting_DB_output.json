@@ -1,0 +1,119 @@
+{
+	"name": "Bol_reporting_DB_output",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Bol_reporting_Table",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Brand",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Order_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "EAN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Fulfilment_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Product_description",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Count_of_sales",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Count_of_returns",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Count_of_adjustments",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Rev_incl_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Rev_Orders_ex_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Rev_Refunds_ex_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Rev_Adjustment_ex_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Seller_Fee_ex_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Fulfillment_cost_ex_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Other_ex_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Subtotal_ex_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Warehouse_cost_excl_vat",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "Country_delivered",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Isbusiness_order",
+				"type": "bit"
+			},
+			{
+				"name": "Reporting_date",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "bol_reporting"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
