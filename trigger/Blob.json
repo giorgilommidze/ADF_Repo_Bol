@@ -4,17 +4,7 @@
 		"description": "Updates on blob",
 		"annotations": [],
 		"runtimeState": "Started",
-		"pipelines": [
-			{
-				"pipelineReference": {
-					"referenceName": "Copy_from_Excel",
-					"type": "PipelineReference"
-				},
-				"parameters": {
-					"File_name": "@triggerBody().fileName"
-				}
-			}
-		],
+		"pipelines": [],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
 			"blobPathBeginsWith": "/bolreporting/blobs/",
